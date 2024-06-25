@@ -1,0 +1,74 @@
+-- Создание таблиц
+CREATE TABLE IF NOT EXISTS Farmer (
+    farmer_id SERIAL PRIMARY KEY,
+    name VARCHAR(100),
+    surname VARCHAR(100),
+    phone BIGINT
+);
+
+CREATE TABLE IF NOT EXISTS Field (
+    field_id SERIAL PRIMARY KEY,
+    name_of_field VARCHAR(100),
+    size INT,
+    location VARCHAR(100),
+    type_of_crop INT
+);
+
+-- (Дополните остальные таблицы аналогичным образом)
+
+-- Удаление таблиц
+DROP TABLE IF EXISTS Farmer_Field CASCADE;
+DROP TABLE IF EXISTS Crop CASCADE;
+-- (Дополните остальные таблицы аналогичным образом)
+
+-- Добавление ограничений
+ALTER TABLE Farmer_Field
+ADD CONSTRAINT fk_farmer FOREIGN KEY (farmer_id) REFERENCES Farmer(farmer_id),
+ADD CONSTRAINT fk_field FOREIGN KEY (field_id) REFERENCES Field(field_id);
+
+-- Изменение таблиц (Добавление столбца)
+ALTER TABLE Farmer
+ADD COLUMN IF NOT EXISTS birth_date DATE;
+
+-- Изменение таблиц (Удаление столбца)
+ALTER TABLE Farmer
+DROP COLUMN IF EXISTS phone;
+
+-- Изменение таблиц (Отключение ограничения)
+ALTER TABLE Farmer_Field
+DROP CONSTRAINT IF EXISTS fk_farmer;
+
+-- Изменение таблиц (Включение ограничения)
+ALTER TABLE Farmer_Field
+ADD CONSTRAINT fk_farmer FOREIGN KEY (farmer_id) REFERENCES Farmer(farmer_id);
+
+-- Усечение таблиц
+TRUNCATE TABLE Harvest;
+
+-- Заполнение таблиц значениями
+INSERT INTO Farmer (name, surname, birth_date) VALUES
+('John', 'Doe', '1990-01-01'),
+('Jane', 'Doe', '1985-05-15');
+
+-- Обновление данных в таблице
+UPDATE Farmer
+SET phone = 1234567890
+WHERE farmer_id = 1;
+
+-- Удаление данных из таблицы
+DELETE FROM Farmer
+WHERE farmer_id = 2;
+
+-- Создание индекса
+CREATE INDEX IF NOT EXISTS idx_crop_name ON Crop(crop_name);
+
+-- Удаление индекса
+DROP INDEX IF EXISTS idx_crop_name;
+
+-- Создание представления
+CREATE OR REPLACE VIEW FarmerView AS
+SELECT farmer_id, name, surname
+FROM Farmer;
+
+-- Удаление представления
+DROP VIEW IF EXISTS FarmerView;

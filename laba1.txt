@@ -1,0 +1,78 @@
+Table Farmer {
+  farmer_id INT [pk]
+  name VARCHAR(100)
+  surname VARCHAR(100)
+  phone int(12)
+}
+
+Table Field {
+  field_id INT [pk]
+  name_of_field VARCHAR(100)
+  size INT
+  location VARCHAR(100)
+  type_of_crop int [ref: > Crop.type_of_crop]
+}
+
+Table Farmer_Field {
+  farmer_field_id int [pk]
+  farmer_id int [ref: > Farmer.farmer_id]
+  field_id int [ref: > Field.field_id]
+}
+
+Table Crop {
+  crop_id INT [pk]
+  crop_name VARCHAR(100)
+  type_of_crop VARCHAR(50)
+}
+
+Table Harvest {
+  harvest_id INT [pk]
+  quantity INT
+  date DATE
+  crop_id INT [ref: > Crop.crop_id]
+}
+
+Table Equipment {
+  equipment_id INT [pk]
+  type_of_equipment VARCHAR(100)
+  state VARCHAR(50)
+  farmer_id INT [ref: > Farmer.farmer_id]
+}
+
+Table Warehouse {
+  warehouse_id INT [pk]
+  warehouse_name VARCHAR
+  location VARCHAR
+  crop_id int [ref: > Harvest.crop_id]
+}
+
+
+Table Inventory {
+  inventory_id INT [pk]
+  quantity varhar(100)
+  farmer_id int [ref: > Farmer.farmer_id]
+}
+
+Table Orders {
+  order_id INT [pk]
+  order_date DATE
+  order_amount INT
+  crop_id int [ref: > Harvest.crop_id]
+}
+
+Table Animal_Plots {
+  plot_id INT [pk]
+  plot_name VARCHAR
+  size INT
+  location varhar(100)
+  animal_id INT [ref: > Animal.animal_id]
+}
+
+Table Animal {
+  animal_id INT [pk]
+  kind_of_animal VARCHAR
+  plot_id INT [ref: > Animal_Plots.plot_id]
+  farmer_id INT [ref: > Farmer.farmer_id]
+}
+
+

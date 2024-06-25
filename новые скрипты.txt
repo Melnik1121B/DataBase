@@ -1,0 +1,86 @@
+--Создание таблиц
+CREATE TABLE Farmer (
+    farmer_id serial PRIMARY KEY,
+    name VARCHAR(100),
+    surname VARCHAR(100),
+    phone BIGINT
+);
+CREATE TABLE Field (
+    field_id INT PRIMARY KEY,
+    name_of_field VARCHAR(100),
+    size INT,
+    location VARCHAR(100),
+    type_of_crop INT
+);
+CREATE TABLE Farmer_Field (
+    farmer_field_id INT PRIMARY KEY,
+    farmer_id INT,
+    field_id INT
+);
+CREATE TABLE Crop();
+CREATE TABLE Harvest();
+CREATE TABLE Equipment();
+CREATE TABLE Warehouse();
+CREATE TABLE Inventory();
+CREATE TABLE Warehouse_Inventory();
+CREATE TABLE Orders();
+CREATE TABLE Animal_Plots();
+CREATE TABLE Animal();
+
+--Удаление таблиц
+DROP TABLE Farmer;
+DROP TABLE Field;
+DROP TABLE Farmer_Field;
+DROP TABLE Crop;
+DROP TABLE Harvest;
+DROP TABLE Equipment;
+DROP TABLE Warehouse;
+DROP TABLE Inventory;
+DROP TABLE Warehouse_Inventory;
+DROP TABLE Orders;
+DROP TABLE Animal_Plots;
+DROP TABLE Animal;
+
+--Добавление ограничений
+ALTER TABLE Farmer_Field
+ADD CONSTRAINT fk_farmer FOREIGN KEY (farmer_id) REFERENCES Farmer(farmer_id),
+ADD CONSTRAINT fk_field FOREIGN KEY (field_id) REFERENCES Field(field_id);
+
+--Отключение ограничений
+alter table Farmer_Field
+drop constraint if exists fk_farmer,
+drop constraint if exists fk_field;
+
+--Добавление столбца
+ALTER TABLE Farmer
+ADD COLUMN email VARCHAR(100);
+
+--Удаление столбца
+ALTER TABLE Farmer
+DROP COLUMN phone;
+
+--Усечение таблиц
+truncate table farmer;
+
+--Заполнение таблиц
+INSERT INTO Farmer (name, surname, email) VALUES ('John', 'Doe', 'john@example.com');
+INSERT INTO Farmer (name, surname, email) VALUES ('Jane', 'Smith', 'jane@example.com');
+
+--Обновление данных в таблице
+UPDATE Farmer SET email = 'john.doe@example.com' WHERE name = 'John';
+
+--Удаление данных из таблицы
+DELETE FROM Farmer WHERE name = 'Jane';
+
+--Создание индекса
+CREATE INDEX farmer_name_idx ON Farmer (name);
+
+--Удаление интекса
+DROP INDEX IF EXISTS farmer_name_idx;
+
+--Создание представлений
+CREATE VIEW Farmer_View AS
+SELECT * FROM Farmer WHERE surname = 'Doe';
+
+--Удаление представлений
+DROP VIEW IF EXISTS Farmer_View;
